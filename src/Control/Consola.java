@@ -9,7 +9,7 @@ package Control;
  *
  * @author Sofito-Chan
  */
-public class PPL3 {
+public class Consola {
 
     /**
      * @param args the command line arguments
