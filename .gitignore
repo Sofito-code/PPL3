@@ -12,3 +12,6 @@ out/production/PPL3/Control/Consola.class
 out/production/PPL3/Control/MatrizEnTripleta.class
 *.class
 src/Control/NodoCasilla.java
+/build/
+nbproject/project.properties
+nbproject/project.properties

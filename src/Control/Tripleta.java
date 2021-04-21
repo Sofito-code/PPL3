@@ -72,4 +72,9 @@ public class Tripleta {
     public void asignaValor(Object val) {
         valor = val;
     }
+
+    @Override
+    public String toString() {
+        return "Tripleta{" + "fila=" + fila + ", columna=" + columna + ", valor=" + valor + '}';
+    }
 }
