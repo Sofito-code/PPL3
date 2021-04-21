@@ -14,18 +14,17 @@ package Control;
 public class MatrizEnTripleta {
 
     private Tripleta v[], aux[];
+    private int numeroDeMinas;
+    private String minas = "";
 
-    public MatrizEnTripleta(Tripleta t) {
-        int n;
-        n = (Integer) t.retornaValor();
-        v = new Tripleta[n + 2];
-        v[0] = t;
-    }
-
-    public MatrizEnTripleta(int f, int c, int valor) {
+    public MatrizEnTripleta(int f, int c, int cantidadMinas) {
+        int valor = f*c;
         Tripleta t = new Tripleta(f, c, valor);
-        v = new Tripleta[valor + 2];
+        numeroDeMinas = cantidadMinas;
+        v = new Tripleta[valor+2];
         v[0] = t;
+        inicializarMatriz();
+        generarMinas();
     }
 
     public boolean esVacia() {
@@ -126,7 +125,7 @@ public class MatrizEnTripleta {
         Tripleta t, tx;
         tx = retornaTripleta(0);
         datos = (Integer) tx.retornaValor();
-        i = 1;
+        i = 0;
         t = retornaTripleta(i);
         while (i <= datos && t.retornaFila() < ti.retornaFila()) {
             i = i + 1;
@@ -138,12 +137,16 @@ public class MatrizEnTripleta {
         }
         j = datos;
         datos = datos + 1;
-        asignaNumeroTripletas(datos);
         while (j >= i) {
             v[j + 1] = v[j];
             j = j - 1;
         }
         v[i] = ti;
+        asignaNumeroTripletas(datos);
+    }
+
+    public void asignaTripleta2(Tripleta t, int x){
+        v[x] = t;
     }
 
     private int comparar(int numero1, int numero2) {
@@ -154,5 +157,61 @@ public class MatrizEnTripleta {
             return 1;
         }
         return 0;
+    }
+
+    private void inicializarMatriz(){
+        int p = 1;
+        for(int i=1; i<numeroFilas();i++){
+            for(int j=1;j<numeroColumnas();j++){
+                Tripleta t = new Tripleta(i,j,0);
+                this.asignaTripleta2(t,p);
+                p++;
+            }
+        }
+    }
+
+    private void generarMinas(){
+        int minasGeneradas = 0;
+        while(minasGeneradas != numeroDeMinas){
+            int posTemporalFila = (int) (Math.random()*numeroFilas());
+            int posTemporalColumna = (int)(Math.random()*numeroColumnas());
+            if(minas.contains(String.valueOf(posTemporalFila) + String.valueOf(posTemporalColumna))){
+                continue;
+            }else{
+                minas += String.valueOf(posTemporalFila) + String.valueOf(posTemporalColumna) + ",";
+                Tripleta t = new Tripleta(posTemporalFila,posTemporalColumna, -1);
+                this.asignaTripleta(t,minasGeneradas+1);
+                //this.insertaTripleta(t);
+                minasGeneradas++;
+            }
+
+        }
+    }
+
+    public void mostrarTripletas(){
+        int p = v.length;
+        for(int i=1; i<=p;i++){
+            System.out.print(v[i].retornaValor());
+        }
+    }
+
+    public void muestraMatriz2() {
+        int p, f, c, i,val;
+        p = numeroTripletas();
+        f = v[0].retornaFila();
+        c = v[0].retornaColumna();
+        val = (int) v[0].retornaValor();
+        System.out.println("\n\nMatriz: " + Integer.toString(f) + " * " + Integer.toString(c) + " con " + Integer.toString(val) + " elementos.");
+        for (i = 1; i <= p; i++) {
+            if (v[i] == null) {
+                System.err.println("Nulo en i: " + i);
+                return;
+            }
+            f = v[i].retornaFila();
+            c = v[i].retornaColumna();
+            val = (int) v[i].retornaValor();
+            //Necesaria modificación para GUI.
+            System.out.println(Integer.toString(f) + ", " + Integer.toString(c) + ", " + Integer.toString(val));
+        }
     }
 }
