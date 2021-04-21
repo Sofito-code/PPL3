@@ -20,9 +20,9 @@ public class MatrizEnTripleta {
     public MatrizEnTripleta(int f, int c, int cantidadMinas) {
         int valor = f*c;
         numeroDeMinas = cantidadMinas;
-        Tripleta t = new Tripleta(f, c, 0);
-        v = new Tripleta[valor];
-        v[0] = t;        
+        Tripleta t = new Tripleta(f, c, 1);
+        v = new Tripleta[valor+2];
+        v[0] = t;      
         generarMinas();
     }
 
@@ -71,12 +71,12 @@ public class MatrizEnTripleta {
      */
     public void muestraMatriz() {
         int p, f, c, i;
-        double val;
+        int val;
         p = numeroTripletas();
         f = v[0].retornaFila();
         c = v[0].retornaColumna();
         val = (int) v[0].retornaValor();
-        System.out.println("\n\nCabeza: " + Integer.toString(f) + ", " + Integer.toString(c) + ", " + Double.toString(val));
+        System.out.println("\n\nCabeza: " + Integer.toString(f) + ", " + Integer.toString(c) + ", " + Integer.toString(val));
         for (i = 1; i <= p; i++) {
             if (v[i] == null) {
                 System.err.println("Nulo en i: " + i);
@@ -84,9 +84,9 @@ public class MatrizEnTripleta {
             }
             f = v[i].retornaFila();
             c = v[i].retornaColumna();
-            val = (Double) v[i].retornaValor();
+            val = (Integer) v[i].retornaValor();
             //Necesaria modificación para GUI.
-            System.out.println(Integer.toString(f) + ", " + Integer.toString(c) + ", " + Double.toString(val));
+            System.out.println(Integer.toString(f) + ", " + Integer.toString(c) + ", " + Integer.toString(val));
         }
     }
 
@@ -127,23 +127,21 @@ public class MatrizEnTripleta {
         i = 1;
         t = retornaTripleta(i);
         if (t == null){
-            this.asignaTripleta(ti, i);
+            v[i] = ti;
             return;
         }        
         while (i <= datos && t.retornaFila() < ti.retornaFila()) {
             i = i + 1;
             t = retornaTripleta(i);
             if (t == null){
-                this.asignaTripleta(ti, i);
-                return;
+                continue;
             }
         }
         while (i <= datos && t.retornaFila() == ti.retornaFila() && t.retornaColumna() < ti.retornaColumna()) {
             i = i + 1;
             t = retornaTripleta(i);
             if (t == null){
-                this.asignaTripleta(ti, i);
-                return;
+                continue;
             }
         }
         j = datos;
@@ -183,7 +181,7 @@ public class MatrizEnTripleta {
         while(minasGeneradas != numeroDeMinas){
             int posTemporalFila = (int) (Math.random()*numeroFilas()+1);
             int posTemporalColumna = (int)(Math.random()*numeroColumnas()+1);
-            if(minas.contains(String.valueOf(posTemporalFila) + String.valueOf(posTemporalColumna))){
+            if(minas.contains(String.valueOf(posTemporalFila) + String.valueOf(posTemporalColumna+ ","))){
                 continue;
             }else{
                 minas += String.valueOf(posTemporalFila) + String.valueOf(posTemporalColumna) + ",";
@@ -192,6 +190,7 @@ public class MatrizEnTripleta {
                 minasGeneradas++;
             }
         }
+        System.out.println(minas);
     }
 
     public void mostrarTripletas(){

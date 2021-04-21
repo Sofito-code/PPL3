@@ -15,3 +15,4 @@ src/Control/NodoCasilla.java
 /build/
 nbproject/project.properties
 nbproject/project.properties
+*.properties
