@@ -13,7 +13,7 @@ public class Tripleta {
     private int fila;
     private int columna;
     private Object valor;
-    private boolean mina=false;
+    private boolean mina = false;
 
     /**
      * Método constructor. Inicializa una tripleta no vacía con los valores.
@@ -97,5 +97,9 @@ public class Tripleta {
     @Override
     public String toString() {
         return "Tripleta{" + "fila=" + fila + ", columna=" + columna + ", valor=" + valor + '}';
+    }
+
+    public void incrementarValor(){
+        this.valor = (int)valor +1;
     }
 }
