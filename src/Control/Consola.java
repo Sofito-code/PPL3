@@ -16,7 +16,7 @@ public class Consola {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MatrizEnTripleta tablero = new MatrizEnTripleta(8,8,10);
+        MatrizEnTripleta tablero = new MatrizEnTripleta(4,4,2);
 //        Tripleta sofi = new  Tripleta(5,1,3);
 //        tablero.insertaTripleta(sofi);
         tablero.muestraMatriz2();

@@ -16,3 +16,5 @@ src/Control/NodoCasilla.java
 nbproject/project.properties
 nbproject/project.properties
 *.properties
+.idea/uiDesigner.xml
+src/Control/MatrizForma1.java

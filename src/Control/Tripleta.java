@@ -13,7 +13,7 @@ public class Tripleta {
     private int fila;
     private int columna;
     private Object valor;
-    private boolean mina;
+    private boolean mina=false;
 
     /**
      * Método constructor. Inicializa una tripleta no vacía con los valores.
@@ -26,6 +26,12 @@ public class Tripleta {
         fila = f;
         columna = c;
         valor = val;
+    }
+
+    public Tripleta(){
+        fila=0;
+        columna=0;
+        valor=0;
     }
 
     /**
@@ -71,6 +77,21 @@ public class Tripleta {
      */
     public void asignaValor(Object val) {
         valor = val;
+    }
+
+    public boolean esMina() {
+        return mina;
+    }
+
+    public void asignaMina(boolean mina) {
+        this.mina = mina;
+    }
+
+    public boolean esVacia(){
+        if(fila == 0 && columna==0 && (int)valor == 0){
+            return true;
+        }
+        return false;
     }
 
     @Override

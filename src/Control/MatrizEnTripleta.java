@@ -6,6 +6,8 @@ package Control;
  */
 
 
+import java.util.Stack;
+
 /**
  * MatrizEnTripleta dispersa representada en forma de tripletas.
  *
@@ -17,6 +19,10 @@ public class MatrizEnTripleta {
     private int numeroDeMinas;
     private String minas = "";
 
+    public String retornaMinas() {
+        return minas;
+    }
+
     public MatrizEnTripleta(int f, int c, int cantidadMinas) {
         int valor = f*c;
         numeroDeMinas = cantidadMinas;
@@ -24,6 +30,7 @@ public class MatrizEnTripleta {
         v = new Tripleta[valor+2];
         v[0] = t;      
         generarMinas();
+        completarMatriz();
     }
 
     public boolean esVacia() {
@@ -186,6 +193,7 @@ public class MatrizEnTripleta {
             }else{
                 minas += String.valueOf(posTemporalFila) + String.valueOf(posTemporalColumna) + ",";
                 t = new Tripleta(posTemporalFila,posTemporalColumna, -1);
+                t.asignaMina(true);
                 this.insertaTripleta(t);
                 minasGeneradas++;
             }
@@ -219,4 +227,156 @@ public class MatrizEnTripleta {
             System.out.println(Integer.toString(f) + ", " + Integer.toString(c) + ", " + Integer.toString(val));
         }
     }
+
+    public boolean existeTripleta(Tripleta t){
+        int i,f,c,h;
+        i = 1;
+        while(i <= this.numeroTripletas()){
+            f = t.retornaFila();
+            c = t.retornaColumna();
+            h = (int)t.retornaValor();
+            if(f == v[i].retornaFila() && c == v[i].retornaColumna() && h==(int)v[i].retornaValor()){
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
+    public Stack apilarMinas(){
+        Stack<String> pila = new Stack<String>();
+        for(int i=0; i<minas.length();i++){
+            String num = minas.substring(i,i+1);
+            if(num.compareTo(",") == 0){
+                continue;
+            }else{
+                pila.push(num);
+            }
+        }
+        return pila;
+    }
+
+    public Tripleta crearTripletasAlrededor(int x){
+        Stack<String> pila = apilarMinas();
+        int f,c,v;
+        Tripleta tv;
+        c = Integer.valueOf(pila.pop());
+        f = Integer.valueOf(pila.pop());
+        switch (x){
+            case 1: {
+                if (f - 1 <= 0 || c - 1 <= 0 || f - 1 > numeroFilas() || c - 1 > numeroColumnas()) {
+                    return new Tripleta();                                                      //Retorna tripleta vacía
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f - 1, c - 1, v);
+                    return tv;
+                }
+            }
+            case 2: {
+                if (f - 1 <= 0 || c <= 0 || f - 1 > numeroFilas() || c > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f - 1, c, v);
+                    return tv;
+                }
+            }
+            case 3: {
+                if (f - 1 <= 0 || c + 1 <= 0 || f - 1 > numeroFilas() || c + 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f - 1, c + 1, v);
+                    return tv;
+                }
+            }
+            case 4: {
+                if (f <= 0 || c + 1 <= 0 || f > numeroFilas() || c + 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f, c + 1, v);
+                    return tv;
+                }
+            }
+            case 5: {
+                if (f + 1 <= 0 || c + 1 <= 0 || f + 1 > numeroFilas() || c + 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f + 1, c + 1, v);
+                    return tv;
+                }
+            }
+            case 6: {
+                if (f + 1 <= 0 || c <= 0 || f + 1 > numeroFilas() || c > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f + 1, c, v);
+                    return tv;
+                }
+            }
+            case 7: {
+                if (f + 1 <= 0 || c - 1 <= 0 || f + 1 > numeroFilas() || c - 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f + 1, c - 1, v);
+                    return tv;
+                }
+            }
+            case 8: {
+                if (f <= 0 || c - 1 <= 0 || f > numeroFilas() || c - 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 1;
+                    tv = new Tripleta(f, c - 1, v);
+                    return tv;
+                }
+            }
+            default: {
+                System.out.println("Este límite no existe.");
+                return new Tripleta();
+            }
+        }
+    }
+
+    public int posicionTripleta(Tripleta t){
+        if( t != null){
+            int i,f,c,h;
+            i = 1;
+            while(i <= this.numeroTripletas()){
+                f = t.retornaFila();
+                c = t.retornaColumna();
+                h = (int)t.retornaValor();
+                if(f == v[i].retornaFila() && c == v[i].retornaColumna() && h==(int)v[i].retornaValor()){
+                    return i;
+                }
+                i++;
+            }
+        }
+        return 0;
+    }
+
+    public void completarMatriz(){
+        for(int i=1; i<=numeroTripletas();i++){
+            if(v[i].esMina()){
+                for(int j=1; j<=8;j++){
+                    Tripleta t = crearTripletasAlrededor(j);
+                    if(!t.esVacia()){
+                        if(existeTripleta(t)){
+                            int k = posicionTripleta(t);
+                            if(!v[k].esMina()){
+                                v[k].asignaValor((int)v[k].retornaValor()+1);
+                            }
+                        }else{
+                            insertaTripleta(t);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
