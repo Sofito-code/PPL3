@@ -11,7 +11,7 @@ import java.util.Stack;
 /**
  * MatrizEnTripleta dispersa representada en forma de tripletas.
  *
- * @author camilo
+ * @author Zzatanas-Sofi
  */
 public class MatrizEnTripleta {
 
@@ -23,14 +23,19 @@ public class MatrizEnTripleta {
         return minas;
     }
 
+    public MatrizEnTripleta(int numeroDeMinas){
+        int val = numeroDeMinas*8;
+        Tripleta t = new Tripleta(val,val,0);
+        v = new Tripleta[val+2];
+        v[0] = t;
+    }
+
     public MatrizEnTripleta(int f, int c, int cantidadMinas) {
         int valor = f*c;
         numeroDeMinas = cantidadMinas;
-        Tripleta t = new Tripleta(f, c, 1);
+        Tripleta t = new Tripleta(f, c, 0);
         v = new Tripleta[valor+2];
-        v[0] = t;      
-        generarMinas();
-        completarMatriz();
+        v[0] = t;
     }
 
     public boolean esVacia() {
@@ -133,23 +138,13 @@ public class MatrizEnTripleta {
         datos = (Integer) tx.retornaValor();
         i = 1;
         t = retornaTripleta(i);
-        if (t == null){
-            v[i] = ti;
-            return;
-        }        
         while (i <= datos && t.retornaFila() < ti.retornaFila()) {
             i = i + 1;
             t = retornaTripleta(i);
-            if (t == null){
-                continue;
-            }
         }
         while (i <= datos && t.retornaFila() == ti.retornaFila() && t.retornaColumna() < ti.retornaColumna()) {
             i = i + 1;
             t = retornaTripleta(i);
-            if (t == null){
-                continue;
-            }
         }
         j = datos;
         datos = datos + 1;
@@ -182,7 +177,7 @@ public class MatrizEnTripleta {
         minas += "11";
     }
 
-    private void generarMinas(){
+    public void generarMinas(){
         int minasGeneradas = 0;
         Tripleta t;
         while(minasGeneradas != numeroDeMinas){
@@ -228,21 +223,6 @@ public class MatrizEnTripleta {
         }
     }
 
-    public boolean existeTripleta(Tripleta t){
-        int i,f,c,h;
-        i = 1;
-        while(i <= this.numeroTripletas()){
-            f = t.retornaFila();
-            c = t.retornaColumna();
-            h = (int)t.retornaValor();
-            if(f == v[i].retornaFila() && c == v[i].retornaColumna() && h==(int)v[i].retornaValor()){
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
-
     public Stack apilarMinas(){
         Stack<String> pila = new Stack<String>();
         for(int i=0; i<minas.length();i++){
@@ -256,12 +236,12 @@ public class MatrizEnTripleta {
         return pila;
     }
 
-    public Tripleta crearTripletasAlrededor(int x){
+    public Tripleta crearTripletasAlrededor(int x, Tripleta t){
         Stack<String> pila = apilarMinas();
         int f,c,v;
         Tripleta tv;
-        c = Integer.valueOf(pila.pop());
-        f = Integer.valueOf(pila.pop());
+        c = t.retornaColumna();
+        f = t.retornaFila();
         switch (x){
             case 1: {
                 if (f - 1 <= 0 || c - 1 <= 0 || f - 1 > numeroFilas() || c - 1 > numeroColumnas()) {
@@ -342,39 +322,58 @@ public class MatrizEnTripleta {
         }
     }
 
+    public boolean existeTripleta(Tripleta t){
+        int f,c;
+        for(int i=1; i<=this.numeroTripletas(); i++){
+            f = t.retornaFila();
+            c = t.retornaColumna();
+            if(f == v[i].retornaFila() && c == v[i].retornaColumna()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int posicionTripleta(Tripleta t){
         if( t != null){
-            int i,f,c,h;
-            i = 1;
-            while(i <= this.numeroTripletas()){
+            int f,c;
+            for(int i=1; i<=this.numeroTripletas(); i++){
                 f = t.retornaFila();
                 c = t.retornaColumna();
-                h = (int)t.retornaValor();
-                if(f == v[i].retornaFila() && c == v[i].retornaColumna() && h==(int)v[i].retornaValor()){
+                if(f == v[i].retornaFila() && c == v[i].retornaColumna()){
                     return i;
                 }
-                i++;
             }
         }
         return 0;
     }
 
     public void completarMatriz(){
+        MatrizEnTripleta a = new MatrizEnTripleta(numeroDeMinas);
         for(int i=1; i<=numeroTripletas();i++){
             if(v[i].esMina()){
                 for(int j=1; j<=8;j++){
-                    Tripleta t = crearTripletasAlrededor(j);
+                    Tripleta t = crearTripletasAlrededor(j,v[i]);
                     if(!t.esVacia()){
-                        if(existeTripleta(t)){
-                            int k = posicionTripleta(t);
-                            if(!v[k].esMina()){
-                                v[k].asignaValor((int)v[k].retornaValor()+1);
+                        if(!a.esVacia()){
+                            if(a.existeTripleta(t)){
+                                int k = a.posicionTripleta(t);
+                                a.retornaTripleta(k).incrementarValor();
+                            }else{
+                                a.insertaTripleta(t);
                             }
-                        }else{
-                            insertaTripleta(t);
+                        }
+                        else{
+                            a.insertaTripleta(t);
                         }
                     }
                 }
+            }
+        }
+        for(int l=1;l<=a.numeroTripletas();l++){
+            Tripleta ta = a.retornaTripleta(l);
+            if(!this.existeTripleta(ta)){
+                this.insertaTripleta(ta);
             }
         }
     }
