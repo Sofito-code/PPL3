@@ -1,12 +1,12 @@
-package Control;
+package Modelo;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-import java.util.Stack;
 
 /**
  * MatrizEnTripleta dispersa representada en forma de tripletas.
@@ -17,10 +17,10 @@ public class MatrizEnTripleta {
 
     private Tripleta v[], aux[];
     private int numeroDeMinas;
-    private String minas = "";
+    private String minas = ""; 
 
-    public String retornaMinas() {
-        return minas;
+    public Tripleta[] getV() {
+        return v;
     }
 
     public MatrizEnTripleta(int numeroDeMinas){
@@ -63,8 +63,8 @@ public class MatrizEnTripleta {
     }
 
     public void asignaNumeroTripletas(int datos) {
-        System.out.println("Antiguo número de tripletas: " + numeroTripletas());
-        System.out.println("Nuevo número de tripletas: " + datos);
+        //System.out.println("Antiguo número de tripletas: " + numeroTripletas());
+        //System.out.println("Nuevo número de tripletas: " + datos);
         int antiguo = numeroTripletas();
         aux = v;
         Tripleta ti, tj;
@@ -102,29 +102,6 @@ public class MatrizEnTripleta {
         }
     }
 
-    public void asignaTripleta(Tripleta t, int i) {
-        if (t == null) {
-            System.err.println("Tripleta vacía.");
-            return;
-        }
-        /*
-         if (i > numeroTripletas()) {
-         System.err.println("No existen tantas tripletas como: " + i + ", n = " + numeroTripletas());
-         return;
-         }
-         */
-        int c = t.retornaColumna();
-        int f = t.retornaFila();
-        Tripleta nt;
-        if (t.retornaValor() instanceof Integer) {
-            int val = (int) t.retornaValor();
-            nt = new Tripleta(f, c, val);
-        } else {
-            nt = new Tripleta(f, c, (Integer) t.retornaValor());
-        }
-        v[i] = nt;
-    }
-
     /**
      * Inserta la tripleta t en su lugar correspondiente. La matriz está
      * ordenada por filas y luego por columnas de menor a mayor.
@@ -157,25 +134,6 @@ public class MatrizEnTripleta {
         
     }
 
-    public void asignaTripleta2(Tripleta t, int x){
-        v[x] = t;
-    }
-
-    private int comparar(int numero1, int numero2) {
-        if (numero1 < numero2) {
-            return -1;
-        }
-        if (numero1 > numero2) {
-            return 1;
-        }
-        return 0;
-    }
-
-    private void inicializarMatriz(){
-        Tripleta t = new Tripleta(1,1,-1);
-        this.asignaTripleta(t,1);
-        minas += "11";
-    }
 
     public void generarMinas(){
         int minasGeneradas = 0;
@@ -196,12 +154,6 @@ public class MatrizEnTripleta {
         System.out.println(minas);
     }
 
-    public void mostrarTripletas(){
-        int p = v.length;
-        for(int i=1; i<=p;i++){
-            System.out.print(v[i].retornaValor());
-        }
-    }
 
     public void muestraMatriz2() {
         int p, f, c, i,val;
@@ -223,21 +175,8 @@ public class MatrizEnTripleta {
         }
     }
 
-    public Stack apilarMinas(){
-        Stack<String> pila = new Stack<String>();
-        for(int i=0; i<minas.length();i++){
-            String num = minas.substring(i,i+1);
-            if(num.compareTo(",") == 0){
-                continue;
-            }else{
-                pila.push(num);
-            }
-        }
-        return pila;
-    }
 
-    public Tripleta crearTripletasAlrededor(int x, Tripleta t){
-        Stack<String> pila = apilarMinas();
+    public Tripleta crearTripletasAlrededor(int x, Tripleta t){       
         int f,c,v;
         Tripleta tv;
         c = t.retornaColumna();
@@ -316,7 +255,7 @@ public class MatrizEnTripleta {
                 }
             }
             default: {
-                System.out.println("Este límite no existe.");
+                System.out.println("Este límite no existe en el tablero.");
                 return new Tripleta();
             }
         }
@@ -333,7 +272,7 @@ public class MatrizEnTripleta {
         }
         return false;
     }
-
+    
     public int posicionTripleta(Tripleta t){
         if( t != null){
             int f,c;
@@ -376,6 +315,25 @@ public class MatrizEnTripleta {
                 this.insertaTripleta(ta);
             }
         }
-    }
+    }   
 
+    public int getNumeroDeMinas() {
+        return numeroDeMinas;
+    }
+    
+    public List<Tripleta> minas(){
+        List<Tripleta> tripletasConMina = new LinkedList<>();
+        for(int i = 1; i <= this.numeroTripletas(); i++){
+            if (this.retornaTripleta(i).esMina()) {
+                tripletasConMina.add(this.retornaTripleta(i));                
+            }
+        }
+        return tripletasConMina;
+    }
+    
+//    public void imprimirMatrizMinas(){
+//        for(int i =1; i <= this.numeroTripletas(); i++){
+//            v[i]
+//        }
+//    }
 }
