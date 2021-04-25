@@ -14,6 +14,7 @@ public class Tripleta {
     private int columna;
     private Object valor;
     private boolean mina = false;
+    private boolean abierta = false;
 
     /**
      * Método constructor. Inicializa una tripleta no vacía con los valores.
@@ -96,10 +97,18 @@ public class Tripleta {
 
     @Override
     public String toString() {
-        return "Tripleta{" + "fila=" + fila + ", columna=" + columna + ", valor=" + valor + '}';
+        return "Tripleta{" + "fila: " + fila + ", columna: " + columna + ", valor: " + valor + '}';
     }
 
     public void incrementarValor(){
         this.valor = (int)valor +1;
+    }
+
+    public boolean esAbierta() {
+        return abierta;
+    }
+
+    public void setAbierta(boolean abierta) {
+        this.abierta = abierta;
     }
 }

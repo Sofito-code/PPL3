@@ -260,6 +260,7 @@ public class MatrizEnTripleta {
             }
         }
     }
+    
 
     public boolean existeTripleta(Tripleta t){
         int f,c;
@@ -331,6 +332,149 @@ public class MatrizEnTripleta {
         return tripletasConMina;
     }
     
+    public Tripleta ObtenerTripletasAlrededor(int x, Tripleta t){       
+        int f,c,v;
+        Tripleta tv;
+        c = t.retornaColumna();
+        f = t.retornaFila();
+        switch (x){
+            case 1: {
+                if (f - 1 <= 0 || c - 1 <= 0 || f - 1 > numeroFilas() || c - 1 > numeroColumnas()) { //Izquierda Arriba
+                    return new Tripleta();                                                      //Retorna tripleta vacía
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f - 1, c - 1, v);
+                    if(this.existeTripleta(tv)){
+                        
+                    }
+                    return tv;
+                }
+            }
+            case 2: {
+                if (f - 1 <= 0 || c <= 0 || f - 1 > numeroFilas() || c > numeroColumnas()) { //Arriba
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f - 1, c, v);
+                    return tv;
+                }
+            }
+            case 3: {
+                if (f - 1 <= 0 || c + 1 <= 0 || f - 1 > numeroFilas() || c + 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f - 1, c + 1, v);
+                    return tv;
+                }
+            }
+            case 4: {
+                if (f <= 0 || c + 1 <= 0 || f > numeroFilas() || c + 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f, c + 1, v);
+                    return tv;
+                }
+            }
+            case 5: {
+                if (f + 1 <= 0 || c + 1 <= 0 || f + 1 > numeroFilas() || c + 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f + 1, c + 1, v);
+                    return tv;
+                }
+            }
+            case 6: {
+                if (f + 1 <= 0 || c <= 0 || f + 1 > numeroFilas() || c > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f + 1, c, v);
+                    return tv;
+                }
+            }
+            case 7: {
+                if (f + 1 <= 0 || c - 1 <= 0 || f + 1 > numeroFilas() || c - 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f + 1, c - 1, v);
+                    return tv;
+                }
+            }
+            case 8: {
+                if (f <= 0 || c - 1 <= 0 || f > numeroFilas() || c - 1 > numeroColumnas()) {
+                    return new Tripleta();
+                } else {
+                    v = 0;
+                    tv = new Tripleta(f, c - 1, v);
+                    return tv;
+                }
+            }
+            default: {
+                System.out.println("Este límite no existe en el tablero.");
+                return new Tripleta();
+            }
+        }
+    }
+    
+    public List<Tripleta> obtenerCasillasAlrededor(int posFila, int posColumna) {
+        List<Tripleta> listaCasillas = new LinkedList<>();
+        Tripleta t;
+        for (int i = 1; i <= 8; i++) {
+            int tmpPosFila = posFila;
+            int tmpPosColumna = posColumna;
+            switch (i) {
+                case 1:
+                    tmpPosFila--;
+                    tmpPosColumna--;
+                    break; //Izquierda Arriba
+                case 2:
+                    tmpPosFila--;
+                    break; //Arriba
+                case 3:
+                    tmpPosFila--;
+                    tmpPosColumna++;
+                    break; //Arriba Derecha
+                case 4:
+                    tmpPosColumna++;
+                    break; //Derecha
+                case 5:
+                    tmpPosColumna++;
+                    tmpPosFila++;
+                    break; //Derecha Abajo
+                case 6:
+                    tmpPosFila++;
+                    break; //Abajo
+                case 7:
+                    tmpPosFila++;
+                    tmpPosColumna--;
+                    break; //Abajo Izquierda
+                case 8:
+                    tmpPosColumna--;
+                    break; //Izquierda
+
+            }
+            if ((tmpPosFila >= 1) && (tmpPosFila <= this.numeroFilas())
+                    && (tmpPosColumna >= 1) && (tmpPosColumna <= this.numeroColumnas())) {
+                t = new Tripleta(tmpPosFila, tmpPosColumna, 0);
+                if (this.existeTripleta(t)) {
+                    int s = posicionTripleta(t);
+                    int valor = (int) v[s].retornaValor();
+                    if (valor != -1) {
+                        t.asignaValor(valor);
+                        listaCasillas.add(t);
+                    }
+                } else {
+                    listaCasillas.add(t);
+                }
+            }
+
+        }
+        return listaCasillas;
+    }
 //    public void imprimirMatrizMinas(){
 //        for(int i =1; i <= this.numeroTripletas(); i++){
 //            v[i]

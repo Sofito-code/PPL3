@@ -19,6 +19,8 @@ public class ControladorTablero {
 
     private MatrizEnTripleta tablero;
     private Consumer<List<Tripleta>> eventoPartidaPerdida;
+    private Consumer<Tripleta> casillaAbierta;
+    
     public void index(int filas, int cols, int minas) {        
         tablero = new MatrizEnTripleta(filas,cols,minas);
         tablero.generarMinas();
@@ -34,23 +36,38 @@ public class ControladorTablero {
     }
     
     public void seleccionarCasilla(int x, int y) {
-        Tripleta t = new Tripleta(x, y, 0);
-        List<Tripleta> tripletasConMina = new LinkedList<>();
+        
+        Tripleta t = new Tripleta(x, y, 0);       
         if (tablero.existeTripleta(t)) {
             int i = tablero.posicionTripleta(t);
+            
+            casillaAbierta.accept(this.getTablero().getV()[i]);
+            //mina
             if (tablero.retornaTripleta(i).esMina()) {
-                tripletasConMina = tablero.minas();
+                eventoPartidaPerdida.accept(tablero.minas());
             }
-            eventoPartidaPerdida.accept(tripletasConMina);
+            else{
+                //numero
+                tablero.getV()[i].setAbierta(true);
+            }
+        }
+        else{
+            // es cero
+            casillaAbierta.accept(t);
+            for(Tripleta casilla: tablero.obtenerCasillasAlrededor(x, y)){
+                if (!casilla.esAbierta()){
+                    seleccionarCasilla(casilla.retornaFila(), casilla.retornaColumna());
+                }
+            }
         }
     }
-
-    public Consumer<List<Tripleta>> getEventoPartidaPerdida() {
-        return eventoPartidaPerdida;
-    }
-
+        
     public void setEventoPartidaPerdida(Consumer<List<Tripleta>> eventoPartidaPerdida) {
         this.eventoPartidaPerdida = eventoPartidaPerdida;
     }
+
+    public void setCasillaAbierta(Consumer<Tripleta> casillaAbierta) {
+        this.casillaAbierta = casillaAbierta;
+    }    
     
 }
