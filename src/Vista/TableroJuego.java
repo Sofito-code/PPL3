@@ -21,7 +21,7 @@ public class TableroJuego extends javax.swing.JFrame {
 
     int filas=8;
     int cols=8;
-    int minas=10;
+    int minas=5;
     JButton[][] botonesTablero;
     ControladorTablero tableroBuscaminas = new ControladorTablero();;
     /**
@@ -34,12 +34,20 @@ public class TableroJuego extends javax.swing.JFrame {
     }
 
     public void crearTablero(){
-        tableroBuscaminas.index(filas, cols, minas);
+        tableroBuscaminas.crear(filas, cols, minas);
         tableroBuscaminas.setEventoPartidaPerdida(new Consumer<List<Tripleta>>() {
             @Override
             public void accept(List<Tripleta> t) {
                 for(Tripleta casilla: t){
                     botonesTablero[casilla.retornaFila()-1][casilla.retornaColumna()-1].setText("*");
+                }
+            }
+        });
+        tableroBuscaminas.setEventoPartidaGanada(new Consumer<List<Tripleta>>() {
+            @Override
+            public void accept(List<Tripleta> t) {
+                for(Tripleta casilla: t){
+                    botonesTablero[casilla.retornaFila()-1][casilla.retornaColumna()-1].setText("Ü");
                 }
             }
         });
@@ -66,7 +74,7 @@ public class TableroJuego extends javax.swing.JFrame {
                             
             }
         });
-        tableroBuscaminas.getTablero().muestraMatriz2();
+        tableroBuscaminas.getTablero().muestraMatriz();
     }
     
     public void cargarControles(int filas, int cols){
@@ -155,9 +163,9 @@ public class TableroJuego extends javax.swing.JFrame {
             NavegacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NavegacionLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(169, 169, 169)
-                .addComponent(MenuBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(MenuBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         NavegacionLayout.setVerticalGroup(
@@ -180,7 +188,7 @@ public class TableroJuego extends javax.swing.JFrame {
         );
         MinasLayout.setVerticalGroup(
             MinasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 347, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -196,7 +204,8 @@ public class TableroJuego extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(Navegacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Minas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Minas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Navegacion.getAccessibleContext().setAccessibleName("Navegacion");
