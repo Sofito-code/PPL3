@@ -18,11 +18,9 @@ public class MatrizEnTripleta {
     private Tripleta v[], aux[];
     private int numeroDeMinas;
     private String minas = ""; 
+    private String ceros = "";
 
-    public Tripleta[] getV() {
-        return v;
-    }
-
+    
     public MatrizEnTripleta(int numeroDeMinas){
         int val = numeroDeMinas*8;
         Tripleta t = new Tripleta(val,val,0);
@@ -331,28 +329,36 @@ public class MatrizEnTripleta {
         }
         return tripletasConMina;
     }
+    public List<Tripleta> sinMinas(){
+        List<Tripleta> tripletasConMina = new LinkedList<>();
+        for(int i = 1; i <= this.numeroTripletas(); i++){
+            if (!this.retornaTripleta(i).esMina()) {
+                tripletasConMina.add(this.retornaTripleta(i));                
+            }
+        }
+        return tripletasConMina;
+    }
+    
     
     public Tripleta ObtenerTripletasAlrededor(int x, Tripleta t){       
         int f,c,v;
-        Tripleta tv;
+        Tripleta tv,va;
         c = t.retornaColumna();
         f = t.retornaFila();
+        va = new Tripleta();
         switch (x){
             case 1: {
                 if (f - 1 <= 0 || c - 1 <= 0 || f - 1 > numeroFilas() || c - 1 > numeroColumnas()) { //Izquierda Arriba
-                    return new Tripleta();                                                      //Retorna tripleta vacía
+                    return va;                                                      //Retorna tripleta vacía
                 } else {
                     v = 0;
-                    tv = new Tripleta(f - 1, c - 1, v);
-                    if(this.existeTripleta(tv)){
-                        
-                    }
+                    tv = new Tripleta(f - 1, c - 1, v);                    
                     return tv;
                 }
             }
             case 2: {
                 if (f - 1 <= 0 || c <= 0 || f - 1 > numeroFilas() || c > numeroColumnas()) { //Arriba
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f - 1, c, v);
@@ -361,7 +367,7 @@ public class MatrizEnTripleta {
             }
             case 3: {
                 if (f - 1 <= 0 || c + 1 <= 0 || f - 1 > numeroFilas() || c + 1 > numeroColumnas()) {
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f - 1, c + 1, v);
@@ -370,7 +376,7 @@ public class MatrizEnTripleta {
             }
             case 4: {
                 if (f <= 0 || c + 1 <= 0 || f > numeroFilas() || c + 1 > numeroColumnas()) {
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f, c + 1, v);
@@ -379,7 +385,7 @@ public class MatrizEnTripleta {
             }
             case 5: {
                 if (f + 1 <= 0 || c + 1 <= 0 || f + 1 > numeroFilas() || c + 1 > numeroColumnas()) {
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f + 1, c + 1, v);
@@ -388,7 +394,7 @@ public class MatrizEnTripleta {
             }
             case 6: {
                 if (f + 1 <= 0 || c <= 0 || f + 1 > numeroFilas() || c > numeroColumnas()) {
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f + 1, c, v);
@@ -397,7 +403,7 @@ public class MatrizEnTripleta {
             }
             case 7: {
                 if (f + 1 <= 0 || c - 1 <= 0 || f + 1 > numeroFilas() || c - 1 > numeroColumnas()) {
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f + 1, c - 1, v);
@@ -406,7 +412,7 @@ public class MatrizEnTripleta {
             }
             case 8: {
                 if (f <= 0 || c - 1 <= 0 || f > numeroFilas() || c - 1 > numeroColumnas()) {
-                    return new Tripleta();
+                    return va;
                 } else {
                     v = 0;
                     tv = new Tripleta(f, c - 1, v);
@@ -415,14 +421,14 @@ public class MatrizEnTripleta {
             }
             default: {
                 System.out.println("Este límite no existe en el tablero.");
-                return new Tripleta();
+                return va;
             }
         }
     }
     
     public List<Tripleta> obtenerCasillasAlrededor(int posFila, int posColumna) {
         List<Tripleta> listaCasillas = new LinkedList<>();
-        Tripleta t;
+        Tripleta t;        
         for (int i = 1; i <= 8; i++) {
             int tmpPosFila = posFila;
             int tmpPosColumna = posColumna;
@@ -457,21 +463,23 @@ public class MatrizEnTripleta {
                     break; //Izquierda
 
             }
-            if ((tmpPosFila >= 1) && (tmpPosFila <= this.numeroFilas())
-                    && (tmpPosColumna >= 1) && (tmpPosColumna <= this.numeroColumnas())) {
-                t = new Tripleta(tmpPosFila, tmpPosColumna, 0);
-                if (this.existeTripleta(t)) {
-                    int s = posicionTripleta(t);
-                    int valor = (int) v[s].retornaValor();
-                    if (valor != -1) {
-                        t.asignaValor(valor);
-                        listaCasillas.add(t);
+            boolean dentro = false;
+            if ((tmpPosFila >= 1) && (tmpPosFila <= this.numeroFilas()) && (tmpPosColumna >= 1) && (tmpPosColumna <= this.numeroColumnas())) {
+                dentro = true;
+                for(int x = 1; x <= this.numeroTripletas(); x++){                    
+                    if(tmpPosFila == v[i].retornaFila() && tmpPosColumna == v[i].retornaColumna()){                        
+                        listaCasillas.add(v[i]);
+                        break;
                     }
-                } else {
-                    listaCasillas.add(t);
-                }
+                }               
             }
-
+            if(dentro){
+                if(!ceros.contains(String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",")){                    
+                    ceros += String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",";
+                    t = new Tripleta(tmpPosFila, tmpPosColumna, 0);
+                    listaCasillas.add(t);  
+                }                
+            }
         }
         return listaCasillas;
     }

@@ -43,18 +43,27 @@ public class TableroJuego extends javax.swing.JFrame {
                 }
             }
         });
-        tableroBuscaminas.setCasillaAbierta(new Consumer<Tripleta>() {
+        tableroBuscaminas.setCasillaAbierta(new Consumer<List<Tripleta>>() {
             @Override
-            public void accept(Tripleta t) {
-                if(t.retornaFila()==0 || t.retornaColumna() == 0){
-                    JOptionPane.showMessageDialog(rootPane, "Algo anda mal...");
-                    return;
+            public void accept(List<Tripleta> ti) {
+                for(Tripleta t: ti){
+                    if(t.retornaFila()==0 || t.retornaColumna() == 0){
+                        JOptionPane.showMessageDialog(rootPane, "Algo anda mal...");
+                        break;
+                    }
+                    if(botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].isEnabled()){
+                        botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].setEnabled(false);
+                    }   
+                    int valor = (int)t.retornaValor();
+                    if(0 != (int)t.retornaValor()){
+                        botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].setText(t.retornaValor()+"");                       
+                    }
+                    else{
+                        botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].setText("");
+                    } 
                 }
-                if(botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].isEnabled()){
-                    botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].setEnabled(false);
-                }   
-                int valor = (int)t.retornaValor();
-                botonesTablero[t.retornaFila()-1][t.retornaColumna()-1].setText(0== (int)t.retornaValor()?"":t.retornaValor()+"");               
+                
+                            
             }
         });
         tableroBuscaminas.getTablero().muestraMatriz2();

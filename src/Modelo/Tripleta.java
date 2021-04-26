@@ -13,8 +13,8 @@ public class Tripleta {
     private int fila;
     private int columna;
     private Object valor;
-    private boolean mina = false;
-    private boolean abierta = false;
+    private boolean mina;
+    private boolean abierta;
 
     /**
      * Método constructor. Inicializa una tripleta no vacía con los valores.
@@ -27,13 +27,19 @@ public class Tripleta {
         fila = f;
         columna = c;
         valor = val;
+        mina = false;
+        abierta = false;
     }
 
     public Tripleta(){
         fila=0;
         columna=0;
-        valor=0;
+        valor= (int) 0;
+        mina = false;
+        abierta = false;
     }
+    
+    
 
     /**
      * @return Retorna la fila de la tripleta.
@@ -89,10 +95,7 @@ public class Tripleta {
     }
 
     public boolean esVacia(){
-        if(fila == 0 && columna==0 && (int)valor == 0){
-            return true;
-        }
-        return false;
+        return fila == 0 && columna==0;        
     }
 
     @Override
