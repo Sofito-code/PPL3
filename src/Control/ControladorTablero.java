@@ -21,14 +21,16 @@ public class ControladorTablero {
     private Consumer<List<Tripleta>> eventoPartidaPerdida;
     private Consumer<List<Tripleta>> eventoPartidaGanada;
     private Consumer<List<Tripleta>> casillaAbierta;
-    private int casillasAbiertas=0;
-    private boolean juegoTerminado = false;
+    private int casillasAbiertas;
     private int filas;
     private int cols;
     private int minas;
-    private List<Tripleta> casillasSeleccionadas = new LinkedList<>();
+    private List<Tripleta> casillasSeleccionadas;
     
-    public void crear(int filas, int cols, int minas) {  
+    public void crear(int filas, int cols, int minas) {
+        tablero = new MatrizEnTripleta(0);
+        casillasAbiertas = 0;
+        casillasSeleccionadas = new LinkedList<>();
         this.filas = filas;
         this.cols = cols;
         this.minas = minas;

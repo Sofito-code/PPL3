@@ -84,7 +84,7 @@ public class MatrizEnTripleta {
         f = v[0].retornaFila();
         c = v[0].retornaColumna();
         val = (int) v[0].retornaValor();
-        System.out.println("\n\nMatriz: " + Integer.toString(f) + " * " + Integer.toString(c) + " con " + Integer.toString(val) + " elementos.");
+        System.out.println("\nMatriz: " + Integer.toString(f) + " * " + Integer.toString(c) + " con " + Integer.toString(val) + " elementos.");
         for (i = 1; i <= p; i++) {
             if (v[i] == null) {
                 System.err.println("Nulo en i: " + i);
@@ -147,7 +147,6 @@ public class MatrizEnTripleta {
                 minasGeneradas++;
             }
         }
-        System.out.println(minas);
     }
 
     public Tripleta crearTripletasAlrededor(int x, Tripleta t){       
