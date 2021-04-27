@@ -283,17 +283,17 @@ public class TableroJuego extends javax.swing.JFrame {
     private void nivelPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelPersonalizadoActionPerformed
         negocio = new NegocioTablero();
         try{
-            int f = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de filas (Max: 21): "));
+            int f = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de filas (Max: 21, Mín: 8): "));
             if(!negocio.verificarX(f)){
-                JOptionPane.showMessageDialog(rootPane, "Demasiadas filas");
+                JOptionPane.showMessageDialog(rootPane, "El número no es válido.");
                 return;
             }
-            int c = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de columnas(Max: 45): "));
+            int c = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de columnas(Max: 45, Mín: 8): "));
             if(!negocio.verificarY(c)){
-                JOptionPane.showMessageDialog(rootPane, "Demasiadas columnas");
+                JOptionPane.showMessageDialog(rootPane, "El número no es válido.");
                 return;
             }
-            int m = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de minas (Max: 99, Min: 1): "));
+            int m = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de minas (Max: 99, Min: 10): "));
             if(!negocio.verificarMinas(m)){
                 JOptionPane.showMessageDialog(rootPane, "No se puede crear " + m + " cantidad de minas");
                 return;
