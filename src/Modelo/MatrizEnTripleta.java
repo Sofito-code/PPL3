@@ -408,6 +408,9 @@ public class MatrizEnTripleta {
             int tmpPosFila = posFila;
             int tmpPosColumna = posColumna;
             switch (i) {
+                case 1:
+                    tmpPosColumna--;
+                    break; //Izquierda
                 case 2:
                     tmpPosFila--;
                     tmpPosColumna--;
@@ -432,10 +435,7 @@ public class MatrizEnTripleta {
                 case 8:
                     tmpPosFila++;
                     tmpPosColumna--;
-                    break; //Abajo Izquierda
-                case 1:
-                    tmpPosColumna--;
-                    break; //Izquierda
+                    break; //Abajo Izquierda                
             }
             
             if ((tmpPosFila >= 1) && (tmpPosFila <= this.numeroFilas()) && (tmpPosColumna >= 1) && (tmpPosColumna <= this.numeroColumnas())) {
