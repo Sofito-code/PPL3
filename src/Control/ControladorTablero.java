@@ -60,13 +60,20 @@ public class ControladorTablero {
             //cero
             casillasSeleccionadas.add(t);           
             List<Tripleta> casilasAlrededor = tablero.obtenerCasillasAlrededor(x, y);            
-            for(Tripleta casilla: casilasAlrededor){
-                if((int)casilla.retornaValor() == 0){ 
-                    seleccionarCasilla(casilla.retornaFila(), casilla.retornaColumna());
-                }                             
-            }            
+            for(Tripleta casilla: casilasAlrededor){ 
+                seleccionarCasilla(casilla.retornaFila(), casilla.retornaColumna());
+//                if (!casillasSeleccionadas.contains(casilla)){                    
+//                   
+//                }
+//                else{
+//                    System.out.println("Esta casilla ya existe");
+//                }
+            }  
+            //System.out.println("//////");
         }
         casillasAbiertas = casillasSeleccionadas.size();
+        //casillasSeleccionadas.forEach((c)-> System.out.println(c.toString()));
+        System.out.println("casillas abiertas: "+casillasAbiertas);
         casillaAbierta.accept(casillasSeleccionadas); 
         if(partidaGanada()){
             eventoPartidaGanada.accept(tablero.minas());
@@ -75,7 +82,7 @@ public class ControladorTablero {
  
     public boolean seleccionada(Tripleta f){        
         Tripleta t;
-        for(int m = 1; m <= 8; m++){
+        for(int m = 0; m <= 8; m++){
             t = new Tripleta(f.retornaFila(),f.retornaColumna(),m);
             if(casillasSeleccionadas.contains(t)){
                return true;              

@@ -417,7 +417,7 @@ public class MatrizEnTripleta {
                 case 3:
                     tmpPosFila--;
                     tmpPosColumna++;
-                    break; //Arriba Derecha
+                    break; //Arriba Derecha                    
                 case 4:
                     tmpPosColumna++;
                     break; //Derecha
@@ -435,25 +435,29 @@ public class MatrizEnTripleta {
                 case 8:
                     tmpPosColumna--;
                     break; //Izquierda
-
             }
-            boolean dentro = false;
+            
             if ((tmpPosFila >= 1) && (tmpPosFila <= this.numeroFilas()) && (tmpPosColumna >= 1) && (tmpPosColumna <= this.numeroColumnas())) {
-                dentro = true;
+                boolean dentro = true;
                 for(int x = 1; x <= this.numeroTripletas(); x++){                    
                     if(tmpPosFila == v[x].retornaFila() && tmpPosColumna == v[x].retornaColumna()){ 
-                        listaCasillas.add(v[x]);                       
+                        if (!abiertas.contains(String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna + ","))) {
+                            abiertas += String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",";
+                            listaCasillas.add(v[x]);
+                        }
+                        dentro = false;
                         break;
                     }
-                }               
+                }
+                if(dentro){
+                    if(!abiertas.contains(String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna+ ","))){                    
+                        abiertas += String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",";
+                        t = new Tripleta(tmpPosFila, tmpPosColumna, 0);
+                        listaCasillas.add(t);  
+                    }                
+                }
             }
-            if(dentro){
-                if(!abiertas.contains(String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna+ ","))){                    
-                    abiertas += String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",";
-                    t = new Tripleta(tmpPosFila, tmpPosColumna, 0);
-                    listaCasillas.add(t);  
-                }                
-            }
+            
         }        
         return listaCasillas;
     }

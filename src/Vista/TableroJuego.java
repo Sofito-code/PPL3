@@ -99,6 +99,7 @@ public class TableroJuego extends javax.swing.JFrame {
             for (int j = 0; j < botonesTablero[i].length; j++) {
                 botonesTablero[i][j] = new JButton();
                 botonesTablero[i][j].setName((i+1) + "," + (j+1));
+                botonesTablero[i][j].setText((i+1) + "," + (j+1));
                 botonesTablero[i][j].setBorder(null);
                 if(i ==0 && j==0){
                     botonesTablero[i][j].setBounds(posXInicial, posYInicial, 30, 30);
@@ -143,7 +144,7 @@ public class TableroJuego extends javax.swing.JFrame {
         String[]coordenada = btn.getName().split(",");
         int fila = Integer.valueOf(coordenada[0]);
         int col = Integer.valueOf(coordenada[1]);
-        //JOptionPane.showMessageDialog(rootPane, fila +","+col);
+        JOptionPane.showMessageDialog(rootPane, fila +","+col);
         tableroBuscaminas.seleccionarCasilla(fila, col);
     }
     /**
@@ -283,12 +284,12 @@ public class TableroJuego extends javax.swing.JFrame {
     private void nivelPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelPersonalizadoActionPerformed
         negocio = new NegocioTablero();
         try{
-            int f = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de filas (Max: 21, Mín: 8): "));
+            int f = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de filas (Max: 16, Mín: 8): "));
             if(!negocio.verificarX(f)){
                 JOptionPane.showMessageDialog(rootPane, "El número no es válido.");
                 return;
             }
-            int c = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de columnas(Max: 45, Mín: 8): "));
+            int c = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de columnas(Max: 30, Mín: 8): "));
             if(!negocio.verificarY(c)){
                 JOptionPane.showMessageDialog(rootPane, "El número no es válido.");
                 return;

@@ -13,14 +13,14 @@ import javax.swing.JOptionPane;
  */
 public class NegocioTablero {
     public boolean verificarX(int x){
-        if(x < 8 || x > 21){
+        if(x < 8 || x > 16){
             return false;
         }        
         return true;
     }
     
     public boolean verificarY(int y){
-        if(y < 8 || y > 45){
+        if(y < 8 || y > 30){
             return false;
         }
         return true;
