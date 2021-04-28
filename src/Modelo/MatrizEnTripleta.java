@@ -394,10 +394,11 @@ public class MatrizEnTripleta {
     }
 
     /**
-     *
-     * @param posFila
-     * @param posColumna
-     * @return
+     * Obtiene una tripleta que es de la posicion x y y,
+     * que pertenece a una mina.
+     * @param posFila Número de la fila
+     * @param posColumna Número de la columna
+     * @return Arreglo de tripletas
      */
     public List<Tripleta> obtenerCasillasAlrededor(int posFila, int posColumna) {
         List<Tripleta> listaCasillas = new LinkedList<>();
