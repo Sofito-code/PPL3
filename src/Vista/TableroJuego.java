@@ -72,10 +72,6 @@ public class TableroJuego extends javax.swing.JFrame {
             @Override
             public void accept(List<Tripleta> ti) {
                 for (Tripleta t : ti) {
-                    if (t.retornaFila() == 0 || t.retornaColumna() == 0) {
-                        JOptionPane.showMessageDialog(rootPane, "Algo anda mal...");
-                        break;
-                    }
                     if (botonesTablero[t.retornaFila() - 1][t.retornaColumna() - 1].isEnabled()) {
                         botonesTablero[t.retornaFila() - 1][t.retornaColumna() - 1].setEnabled(false);
                     }
@@ -99,7 +95,6 @@ public class TableroJuego extends javax.swing.JFrame {
             for (int j = 0; j < botonesTablero[i].length; j++) {
                 botonesTablero[i][j] = new JButton();
                 botonesTablero[i][j].setName((i+1) + "," + (j+1));
-                botonesTablero[i][j].setText((i+1) + "," + (j+1));
                 botonesTablero[i][j].setBorder(null);
                 if(i ==0 && j==0){
                     botonesTablero[i][j].setBounds(posXInicial, posYInicial, 30, 30);
@@ -314,27 +309,27 @@ public class TableroJuego extends javax.swing.JFrame {
     }//GEN-LAST:event_nivelPersonalizadoActionPerformed
 
     private void nivelDificilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelDificilActionPerformed
-        filas=16;
-        cols=40;
-        minas=99;
+        filas = 16;
+        cols = 40;
+        minas = 99;
         juegoNuevo();
         textoNivel.setText("Nivel: Difícil");
         textoMinas.setText("Minas: 99");
     }//GEN-LAST:event_nivelDificilActionPerformed
 
     private void nivelIntermedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelIntermedioActionPerformed
-        filas=16;
-        cols=16;
-        minas=40;
+        filas = 16;
+        cols = 16;
+        minas = 40;
         juegoNuevo();
         textoNivel.setText("Nivel: Intermedio");
         textoMinas.setText("Minas: 40");
     }//GEN-LAST:event_nivelIntermedioActionPerformed
 
     private void nivelFacilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelFacilActionPerformed
-        filas=8;
-        cols=8;
-        minas=10;
+        filas = 8;
+        cols = 8;
+        minas = 10;
         juegoNuevo();
         textoNivel.setText("Nivel: Fácil");
         textoMinas.setText("Minas: 10");
