@@ -7,7 +7,7 @@ package Control;
 
 import Modelo.MatrizEnTripleta;
 import Modelo.Tripleta;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -30,7 +30,7 @@ public class ControladorTablero {
     public void crear(int filas, int cols, int minas) {
         tablero = new MatrizEnTripleta(0);
         casillasAbiertas = 0;
-        casillasSeleccionadas = new LinkedList<>();
+        casillasSeleccionadas = new ArrayList<>();
         this.filas = filas;
         this.cols = cols;
         this.minas = minas;
@@ -60,8 +60,7 @@ public class ControladorTablero {
             //cero
             casillasSeleccionadas.add(t);           
             List<Tripleta> casilasAlrededor = tablero.obtenerCasillasAlrededor(x, y);            
-            for(Tripleta casilla: casilasAlrededor){ 
-                
+            for(Tripleta casilla: casilasAlrededor){                 
                 if (!casillasSeleccionadas.contains(casilla)){                    
                    seleccionarCasilla(casilla.retornaFila(), casilla.retornaColumna());
                 }
