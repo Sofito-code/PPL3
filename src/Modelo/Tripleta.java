@@ -5,7 +5,8 @@
 package Modelo;
 
 /**
- *
+ * @author Sofia Vanegas Córdoba
+ * @author Jovan Alejandro Zambrano Bello
  * @author camilo
  */
 public class Tripleta {

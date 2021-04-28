@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @author Sofia Vanegas Córdoba
  * @author Jovan Alejandro Zambrano Bello
+ * @author camilo
  */
 public class MatrizEnTripleta {
 
@@ -407,32 +408,32 @@ public class MatrizEnTripleta {
             int tmpPosFila = posFila;
             int tmpPosColumna = posColumna;
             switch (i) {
-                case 1:
+                case 2:
                     tmpPosFila--;
                     tmpPosColumna--;
                     break; //Izquierda Arriba
-                case 2:
+                case 3:
                     tmpPosFila--;
                     break; //Arriba
-                case 3:
+                case 4:
                     tmpPosFila--;
                     tmpPosColumna++;
                     break; //Arriba Derecha                    
-                case 4:
+                case 5:
                     tmpPosColumna++;
                     break; //Derecha
-                case 5:
+                case 6:
                     tmpPosColumna++;
                     tmpPosFila++;
                     break; //Derecha Abajo
-                case 6:
+                case 7:
                     tmpPosFila++;
                     break; //Abajo
-                case 7:
+                case 8:
                     tmpPosFila++;
                     tmpPosColumna--;
                     break; //Abajo Izquierda
-                case 8:
+                case 1:
                     tmpPosColumna--;
                     break; //Izquierda
             }
@@ -442,9 +443,9 @@ public class MatrizEnTripleta {
                 for(int x = 1; x <= this.numeroTripletas(); x++){                    
                     if(tmpPosFila == v[x].retornaFila() && tmpPosColumna == v[x].retornaColumna()){ 
                         if (!abiertas.contains(String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna + ","))) {
-                            abiertas += String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",";
-                            listaCasillas.add(v[x]);
-                        }
+                            abiertas += String.valueOf(tmpPosFila) + String.valueOf(tmpPosColumna) + ",";                           
+                        }    
+                        listaCasillas.add(v[x]);
                         dentro = false;
                         break;
                     }
@@ -461,11 +462,4 @@ public class MatrizEnTripleta {
         }        
         return listaCasillas;
     }
-    
-//    public void imprimirMatrizMinas(){
-//        for(int i =1; i <= this.numeroTripletas(); i++){
-//            v[i]
-//        }
-//    }
-
 }

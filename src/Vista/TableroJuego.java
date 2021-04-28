@@ -14,6 +14,10 @@ import Modelo.Tripleta;
 import java.util.List;
 import java.util.function.Consumer;
 import Negocio.NegocioTablero;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 /**
  *
  * @author Sofito-Chan
@@ -31,6 +35,7 @@ public class TableroJuego extends javax.swing.JFrame {
      */
     public TableroJuego() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon.png")));
         juegoNuevo();
     }
     
@@ -48,7 +53,7 @@ public class TableroJuego extends javax.swing.JFrame {
             @Override
             public void accept(List<Tripleta> t) {
                 for(Tripleta casilla: t){
-                    botonesTablero[casilla.retornaFila()-1][casilla.retornaColumna()-1].setText("*");
+                    botonesTablero[casilla.retornaFila()-1][casilla.retornaColumna()-1].setText("Ö");
                 } 
                 for (int i = 0; i < botonesTablero.length; i++) {
                     for (int j = 0; j < botonesTablero[i].length; j++) {
@@ -57,6 +62,7 @@ public class TableroJuego extends javax.swing.JFrame {
                         }                        
                     }
                 }
+                JOptionPane.showMessageDialog(rootPane, "Has perdido.", "Juego Terminado", 2);
             }
             
         });
@@ -65,7 +71,8 @@ public class TableroJuego extends javax.swing.JFrame {
             public void accept(List<Tripleta> t) {
                 for(Tripleta casilla: t){
                     botonesTablero[casilla.retornaFila()-1][casilla.retornaColumna()-1].setText("Ü");
-                }                
+                }  
+                JOptionPane.showMessageDialog(rootPane, "Has ganado ¡Felicitaciones!.", "Juego Terminado", 1);
             }
         });
         tableroBuscaminas.setCasillaAbierta(new Consumer<List<Tripleta>>() {
@@ -75,7 +82,6 @@ public class TableroJuego extends javax.swing.JFrame {
                     if (botonesTablero[t.retornaFila() - 1][t.retornaColumna() - 1].isEnabled()) {
                         botonesTablero[t.retornaFila() - 1][t.retornaColumna() - 1].setEnabled(false);
                     }
-                    int valor = (int) t.retornaValor();
                     if (0 != (int) t.retornaValor()) {
                         botonesTablero[t.retornaFila() - 1][t.retornaColumna() - 1].setText(t.retornaValor() + "");
                     } else {
@@ -84,7 +90,6 @@ public class TableroJuego extends javax.swing.JFrame {
                 }         
             }
         });
-        tableroBuscaminas.getTablero().muestraMatriz();
     }
     
     public void cargarControles(int filas, int cols){
@@ -96,17 +101,20 @@ public class TableroJuego extends javax.swing.JFrame {
                 botonesTablero[i][j] = new JButton();
                 botonesTablero[i][j].setName((i+1) + "," + (j+1));
                 botonesTablero[i][j].setBorder(null);
+                botonesTablero[i][j].setForeground(Color.BLACK);
+                botonesTablero[i][j].setFocusable(false);
+                botonesTablero[i][j].setFont(new Font("Arial", Font.PLAIN, 16));
                 if(i ==0 && j==0){
-                    botonesTablero[i][j].setBounds(posXInicial, posYInicial, 30, 30);
+                    botonesTablero[i][j].setBounds(posXInicial, posYInicial, 35, 35);
                 }
                 else if(i==0 && j !=0 ){
                     botonesTablero[i][j].setBounds(
-                            botonesTablero[i][j-1].getX()+botonesTablero[i][j-1].getWidth(), posYInicial, 30, 30);
+                            botonesTablero[i][j-1].getX()+botonesTablero[i][j-1].getWidth(), posYInicial, 35, 35);
                 }
                 else{
                     botonesTablero[i][j].setBounds(
                             botonesTablero[i-1][j].getX(),
-                            botonesTablero[i-1][j].getY() + botonesTablero[i-1][j].getHeight(), 30, 30);            
+                            botonesTablero[i-1][j].getY() + botonesTablero[i-1][j].getHeight(), 35, 35);            
                 }
                 botonesTablero[i][j].addActionListener(new ActionListener() {
                     @Override
@@ -139,7 +147,7 @@ public class TableroJuego extends javax.swing.JFrame {
         String[]coordenada = btn.getName().split(",");
         int fila = Integer.valueOf(coordenada[0]);
         int col = Integer.valueOf(coordenada[1]);
-        JOptionPane.showMessageDialog(rootPane, fila +","+col);
+        
         tableroBuscaminas.seleccionarCasilla(fila, col);
     }
     /**
@@ -182,8 +190,13 @@ public class TableroJuego extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Buscaminas Clásico");
+        setFocusTraversalPolicyProvider(true);
+        setResizable(false);
 
+        MinasPane.setBackground(new java.awt.Color(204, 153, 255));
         MinasPane.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        MinasPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout MinasPaneLayout = new javax.swing.GroupLayout(MinasPane);
         MinasPane.setLayout(MinasPaneLayout);
@@ -199,6 +212,8 @@ public class TableroJuego extends javax.swing.JFrame {
         textoMinas.setText("Minas: 10");
 
         textoNivel.setText("Nivel: Fácil");
+
+        jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         nuevoJuego.setText("Nuevo Juego");
         nuevoJuego.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -279,17 +294,17 @@ public class TableroJuego extends javax.swing.JFrame {
     private void nivelPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nivelPersonalizadoActionPerformed
         negocio = new NegocioTablero();
         try{
-            int f = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de filas (Max: 16, Mín: 8): "));
+            int f = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Elija un numero de filas (Max: 16, Mín: 8): ", "Filas", 3));
             if(!negocio.verificarX(f)){
                 JOptionPane.showMessageDialog(rootPane, "El número no es válido.");
                 return;
             }
-            int c = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de columnas(Max: 30, Mín: 8): "));
+            int c = Integer.parseInt(JOptionPane.showInputDialog(rootPane,"Elija un numero de columnas(Max: 30, Mín: 8): ", "Columnas", 3));
             if(!negocio.verificarY(c)){
                 JOptionPane.showMessageDialog(rootPane, "El número no es válido.");
                 return;
             }
-            int m = Integer.parseInt(JOptionPane.showInputDialog("Elija un numero de minas (Max: 99, Min: 10): "));
+            int m = Integer.parseInt(JOptionPane.showInputDialog(rootPane,"Elija un numero de minas (Max: 99, Min: 10): ", "Minas", 3));
             if(!negocio.verificarMinas(m)){
                 JOptionPane.showMessageDialog(rootPane, "No se puede crear " + m + " cantidad de minas");
                 return;

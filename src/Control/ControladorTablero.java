@@ -53,7 +53,7 @@ public class ControladorTablero {
             }
             else{
                 //pista                 
-                casillasSeleccionadas.add(tablero.retornaTripleta(i));
+                casillasSeleccionadas.add(tablero.retornaTripleta(i));                
             }            
         }
         else{
@@ -66,8 +66,7 @@ public class ControladorTablero {
                 }
             }  
         }
-        casillasAbiertas = casillasSeleccionadas.size();        
-        System.out.println("casillas abiertas: "+casillasAbiertas);
+        casillasAbiertas = casillasSeleccionadas.size();           
         casillaAbierta.accept(casillasSeleccionadas); 
         if(partidaGanada()){
             eventoPartidaGanada.accept(tablero.minas());
