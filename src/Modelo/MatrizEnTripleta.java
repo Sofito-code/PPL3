@@ -10,8 +10,10 @@ import java.util.List;
 
 /**
  * MatrizEnTripleta dispersa representada en forma de tripletas.
+ * Esta clase se realizaron algunos métodos para operarar con matrices en tripletas.
  *
- * @author Zzatanas-Sofi
+ * @author Sofia Vanegas Córdoba
+ * @author Jovan Alejandro Zambrano Bello
  */
 public class MatrizEnTripleta {
 
@@ -19,7 +21,12 @@ public class MatrizEnTripleta {
     private int numeroDeMinas;
     private String minas = ""; 
     private String abiertas = "";
-    
+
+    /**
+     * Constructor auxiliar vacío. Este método se usa más adelante
+     * para configurar las casillas alrededor de una mina.
+     * @param numeroDeMinas - Parametro para crear el tamaño del arreglo de tripletas
+     */
     public MatrizEnTripleta(int numeroDeMinas){
         int val = numeroDeMinas;
         Tripleta t = new Tripleta(val,val,0);
@@ -27,6 +34,13 @@ public class MatrizEnTripleta {
         v[0] = t;
     }
 
+    /**
+     * Constructor principal. Este es el constructor en el cual se
+     * creara el tablero principal del juego.
+     * @param f Número de filas
+     * @param c Número de columnas
+     * @param cantidadMinas - Cantidad de minas por juego
+     */
     public MatrizEnTripleta(int f, int c, int cantidadMinas) {
         int valor = f*c;
         numeroDeMinas = cantidadMinas;
@@ -35,6 +49,10 @@ public class MatrizEnTripleta {
         v[0] = t;
     }
 
+    /**
+     * Méotodo para verificar si una matriz en tripleta esta vacía o no.
+     * @return true, si está vacía , falso de lo contrario
+     */
     public boolean esVacia() {
         Tripleta t = retornaTripleta(0);
         if ((Integer) t.retornaValor() == 0) {
@@ -43,25 +61,42 @@ public class MatrizEnTripleta {
         return false;
     }
 
+    /**
+     * @return Numero de Filas
+     */
     public int numeroFilas() {
         return v[0].retornaFila();
     }
 
+    /**
+     * @return Numero de columnas
+     */
     public int numeroColumnas() {
         return v[0].retornaColumna();
     }
 
+    /**
+     * @return Número de tripletas
+     */
     public int numeroTripletas() {
         return (int) v[0].retornaValor();
     }
 
+    /**
+     * @param i Posición
+     * @return Tripleta en la posición i
+     */
     public Tripleta retornaTripleta(int i) {
         return v[i];
     }
+
     public Tripleta cabeza(){
         return v[0];
     }
 
+    /**
+     * @return Asigna un número a la cantidad de tripletas de la matriz
+     */
     private void asignaNumeroTripletas(int datos) {
         aux = v;
         Tripleta ti, tj;
@@ -130,7 +165,9 @@ public class MatrizEnTripleta {
         
     }
 
-
+    /**
+     * Genera las tripletas correspondientes a las minas del tablero
+     */
     public void generarMinas(){
         int minasGeneradas = 0;
         Tripleta t;
@@ -149,21 +186,36 @@ public class MatrizEnTripleta {
         }
     }
 
+    /**
+     * Por cada tripleta que contenga una mina, se crearan sus casillas alrededor
+     * con su número correspondiente y se retornará. Cuando las casillas estan por
+     * fuera de los límites , se retorna una tripleta vacía.
+     * @param x Indicador de la posición
+     * @param t Tripleta que contiene una mina
+     * @return tripleta nueva que va alrededor de una mina
+     */
     public Tripleta crearTripletasAlrededor(int x, Tripleta t){       
         int f,c,v;
         Tripleta tv;
         c = t.retornaColumna();
         f = t.retornaFila();
+        //Se hace recorrido en sentido de agujas del reloj. Se empieza desde la posición derecha superior hasta la izquierda.
         switch (x){
+            /*
+            Izquierda superior
+             */
             case 1: {
                 if (f - 1 <= 0 || c - 1 <= 0 || f - 1 > numeroFilas() || c - 1 > numeroColumnas()) {
-                    return new Tripleta();                                                      //Retorna tripleta vacía
+                    return new Tripleta();     //Retorna tripleta vacía
                 } else {
                     v = 1;
                     tv = new Tripleta(f - 1, c - 1, v);
                     return tv;
                 }
             }
+            /*
+            Arriba
+             */
             case 2: {
                 if (f - 1 <= 0 || c <= 0 || f - 1 > numeroFilas() || c > numeroColumnas()) {
                     return new Tripleta();
@@ -173,6 +225,9 @@ public class MatrizEnTripleta {
                     return tv;
                 }
             }
+            /*
+            Derecha superior
+             */
             case 3: {
                 if (f - 1 <= 0 || c + 1 <= 0 || f - 1 > numeroFilas() || c + 1 > numeroColumnas()) {
                     return new Tripleta();
@@ -182,6 +237,9 @@ public class MatrizEnTripleta {
                     return tv;
                 }
             }
+            /*
+            Derecha
+             */
             case 4: {
                 if (f <= 0 || c + 1 <= 0 || f > numeroFilas() || c + 1 > numeroColumnas()) {
                     return new Tripleta();
@@ -191,6 +249,9 @@ public class MatrizEnTripleta {
                     return tv;
                 }
             }
+            /*
+            Derecha inferior
+             */
             case 5: {
                 if (f + 1 <= 0 || c + 1 <= 0 || f + 1 > numeroFilas() || c + 1 > numeroColumnas()) {
                     return new Tripleta();
@@ -200,6 +261,9 @@ public class MatrizEnTripleta {
                     return tv;
                 }
             }
+            /*
+            Abajo
+             */
             case 6: {
                 if (f + 1 <= 0 || c <= 0 || f + 1 > numeroFilas() || c > numeroColumnas()) {
                     return new Tripleta();
@@ -209,6 +273,9 @@ public class MatrizEnTripleta {
                     return tv;
                 }
             }
+            /*
+            Izquierda inferior
+             */
             case 7: {
                 if (f + 1 <= 0 || c - 1 <= 0 || f + 1 > numeroFilas() || c - 1 > numeroColumnas()) {
                     return new Tripleta();
@@ -218,6 +285,9 @@ public class MatrizEnTripleta {
                     return tv;
                 }
             }
+            /*
+            Izquierda
+             */
             case 8: {
                 if (f <= 0 || c - 1 <= 0 || f > numeroFilas() || c - 1 > numeroColumnas()) {
                     return new Tripleta();
@@ -233,8 +303,12 @@ public class MatrizEnTripleta {
             }
         }
     }
-    
 
+    /**
+     * Verificar si la tripleta t existe en una matríz
+     * @param t Tripleta a verificar
+     * @return true si está, false de lo contrario
+     */
     public boolean existeTripleta(Tripleta t){
         int f,c;
         for(int i=1; i<=this.numeroTripletas(); i++){
@@ -246,7 +320,12 @@ public class MatrizEnTripleta {
         }
         return false;
     }
-    
+
+    /**
+     * Retorna la posición en la que está la matriz
+     * @param t Tripleta a buscar
+     * @return Posición
+     */
     public int posicionTripleta(Tripleta t){
         if( t != null){
             int f,c;
@@ -261,6 +340,9 @@ public class MatrizEnTripleta {
         return 0;
     }
 
+    /**
+     * Completa la matriz con todas las tripletas.
+     */
     public void completarMatriz(){
         MatrizEnTripleta a = new MatrizEnTripleta(numeroDeMinas);
         for(int i=1; i<=numeroTripletas();i++){
@@ -294,7 +376,11 @@ public class MatrizEnTripleta {
     public int getNumeroDeMinas() {
         return numeroDeMinas;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public List<Tripleta> minas(){
         List<Tripleta> tripletasConMina = new LinkedList<>();
         for(int i = 1; i <= this.numeroTripletas(); i++){
@@ -304,7 +390,13 @@ public class MatrizEnTripleta {
         }
         return tripletasConMina;
     }
-    
+
+    /**
+     *
+     * @param posFila
+     * @param posColumna
+     * @return
+     */
     public List<Tripleta> obtenerCasillasAlrededor(int posFila, int posColumna) {
         List<Tripleta> listaCasillas = new LinkedList<>();
         if(!abiertas.contains(posFila+""+posColumna+",")){
