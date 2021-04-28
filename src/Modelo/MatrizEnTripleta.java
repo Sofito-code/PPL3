@@ -379,8 +379,9 @@ public class MatrizEnTripleta {
     }
 
     /**
-     *
-     * @return
+     * Agrega a una lista tripletas que corresponden a las
+     * minas del tablero.
+     * @return Lista de tripletas
      */
     public List<Tripleta> minas(){
         List<Tripleta> tripletasConMina = new LinkedList<>();

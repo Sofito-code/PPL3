@@ -26,7 +26,13 @@ public class ControladorTablero {
     private int cols;
     private int minas;
     private List<Tripleta> casillasSeleccionadas;
-    
+
+    /**
+     *
+     * @param filas
+     * @param cols
+     * @param minas
+     */
     public void crear(int filas, int cols, int minas) {
         tablero = new MatrizEnTripleta(0);
         casillasAbiertas = 0;
@@ -42,7 +48,12 @@ public class ControladorTablero {
     public MatrizEnTripleta getTablero() {
         return tablero;
     }
-    
+
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void seleccionarCasilla(int x, int y) {        
         Tripleta t = new Tripleta(x, y, 0);       
         if (tablero.existeTripleta(t)) {            
@@ -72,19 +83,35 @@ public class ControladorTablero {
             eventoPartidaGanada.accept(tablero.minas());
         }
     }
-    
+
+    /**
+     *
+     * @return
+     */
     boolean partidaGanada(){
         return casillasAbiertas>=(filas*cols)-minas;
     }
-        
+
+    /**
+     *
+     * @param eventoPartidaPerdida
+     */
     public void setEventoPartidaPerdida(Consumer<List<Tripleta>> eventoPartidaPerdida) {
         this.eventoPartidaPerdida = eventoPartidaPerdida;
     }
 
+    /**
+     *
+     * @param casillaAbierta
+     */
     public void setCasillaAbierta(Consumer<List<Tripleta>> casillaAbierta) {
         this.casillaAbierta = casillaAbierta;
-    }    
+    }
 
+    /**
+     *
+     * @param eventoPartidaGanada
+     */
     public void setEventoPartidaGanada(Consumer<List<Tripleta>> eventoPartidaGanada) {
         this.eventoPartidaGanada = eventoPartidaGanada;
     }
