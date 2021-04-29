@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"Control","l":"ControladorTablero"},{"p":"Vista","l":"Icono"},{"p":"Modelo","l":"MatrizEnTripleta"},{"p":"Negocio","l":"NegocioTablero"},{"p":"Vista","l":"TableroJuego"},{"p":"Modelo","l":"Tripleta"}];updateSearchResults();

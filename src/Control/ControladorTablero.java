@@ -28,10 +28,10 @@ public class ControladorTablero {
     private List<Tripleta> casillasSeleccionadas;
 
     /**
-     *
-     * @param filas
-     * @param cols
-     * @param minas
+     * Crea un Tablero de Juego que obtiene la distribución de una MatrizEnTripletas.
+     * @param filas Filas de la matriz
+     * @param cols Columnas de la matriz
+     * @param minas Número de minas en la matriz
      */
     public void crear(int filas, int cols, int minas) {
         tablero = new MatrizEnTripleta(0);
@@ -45,14 +45,13 @@ public class ControladorTablero {
         tablero.completarMatriz();
     }
 
-    public MatrizEnTripleta getTablero() {
-        return tablero;
-    }
-
     /**
-     *
-     * @param x
-     * @param y
+     * Este metodo se encarga de que pasa cuando se de clic a una casilla del tablero.
+     * Cuando una casilla se le da clic puede ser una mina, una pista o un cero.
+     * Si la casilla es un cero entonces se pregunta por las casillas alrededor para 
+     * revelar las pistas cercanas, abriendose todas las que son cero.
+     * @param x Posición de la fila
+     * @param y Posición de la columna
      */
     public void seleccionarCasilla(int x, int y) {        
         Tripleta t = new Tripleta(x, y, 0);       
@@ -85,16 +84,17 @@ public class ControladorTablero {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @return Es true cuando las casillas abiertas sean mayor o igual al
+     * numero de casillas sin minas.
      */
     boolean partidaGanada(){
         return casillasAbiertas>=(filas*cols)-minas;
     }
 
     /**
-     *
-     * @param eventoPartidaPerdida
+     * 
+     * @param eventoPartidaPerdida Es una lista con las minas del tablero
      */
     public void setEventoPartidaPerdida(Consumer<List<Tripleta>> eventoPartidaPerdida) {
         this.eventoPartidaPerdida = eventoPartidaPerdida;
@@ -102,7 +102,7 @@ public class ControladorTablero {
 
     /**
      *
-     * @param casillaAbierta
+     * @param casillaAbierta Es una lista con las casillas por abrir.
      */
     public void setCasillaAbierta(Consumer<List<Tripleta>> casillaAbierta) {
         this.casillaAbierta = casillaAbierta;
@@ -110,11 +110,10 @@ public class ControladorTablero {
 
     /**
      *
-     * @param eventoPartidaGanada
+     * @param eventoPartidaGanada Es una lista con las minas del tablero 
+     * para que se muestren cuando el usuario gano el juego.
      */
     public void setEventoPartidaGanada(Consumer<List<Tripleta>> eventoPartidaGanada) {
         this.eventoPartidaGanada = eventoPartidaGanada;
-    }
-    
-    
+    }   
 }

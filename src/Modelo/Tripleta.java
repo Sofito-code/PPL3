@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo;
 
 /**
  * @author Sofia Vanegas Córdoba
  * @author Jovan Alejandro Zambrano Bello
- * @author camilo
+ * @author Camilo Sampedro
  */
 public class Tripleta {
     
@@ -15,7 +11,6 @@ public class Tripleta {
     private int columna;
     private Object valor;
     private boolean mina;
-    private boolean abierta;
 
     /**
      * Método constructor. Inicializa una tripleta no vacía con los valores.
@@ -29,18 +24,17 @@ public class Tripleta {
         columna = c;
         valor = val;
         mina = false;
-        abierta = false;
     }
 
+    /**
+     * Método constructor. Inicializa una tripleta vacía con las variables de la clase en ceros.
+     */
     public Tripleta(){
         fila=0;
         columna=0;
         valor= (int) 0;
         mina = false;
-        abierta = false;
-    }
-    
-    
+    }    
 
     /**
      * @return Retorna la fila de la tripleta.
@@ -106,13 +100,5 @@ public class Tripleta {
 
     public void incrementarValor(){
         this.valor = (int)valor +1;
-    }
-
-    public boolean esAbierta() {
-        return abierta;
-    }
-
-    public void setAbierta(boolean abierta) {
-        this.abierta = abierta;
     }
 }
